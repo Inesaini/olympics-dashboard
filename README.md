@@ -26,8 +26,8 @@ This dashboard transforms raw Olympic data into compelling, interactive narrativ
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/S4afou/olympics-dashboard
-   cd olympic-dashboard
+   git clone https://github.com/Inesaini/olympics-dashboard
+   cd olympics-dashboard
    ```
 
 2. **Install dependencies**
@@ -35,10 +35,9 @@ This dashboard transforms raw Olympic data into compelling, interactive narrativ
    pip install -r requirements.txt
    ```
 
-3. **Download the dataset**
-   - Visit: https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games
-   - Download all CSV files
-   - Place them in a `data/` folder in the project root
+3. **Dataset**
+   - The CSV files are already included in the `data/` folder
+   - Source: https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games
 
 4. **Run the application**
    ```bash
@@ -141,7 +140,7 @@ olympic-dashboard/
 ├── requirements.txt                  # Python dependencies
 ├── README.md                         # This file
 │
-└── data/                             # CSV files (not in repo)
+└── data/                             # CSV files (Kaggle dataset)
     ├── athletes.csv
     ├── medals.csv
     ├── medals_total.csv
@@ -157,7 +156,7 @@ olympic-dashboard/
 
 ## 🔗 Links
 
-- **GitHub Repository**: https://github.com/S4afou/Test-SEDS
+- **Original team repository**: https://github.com/S4afou/olympics-dashboard
 - **Kaggle Dataset**: https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games
 
 ---
@@ -166,6 +165,9 @@ olympic-dashboard/
 
 - Medjahri Mohammed Safouane
 - Aini Ines
+
+This was a two-person team project. This repository is my copy of it, with additional fixes
+to the Overview and Athlete Performance filters.
 
 ---
 
