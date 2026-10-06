@@ -164,10 +164,10 @@ olympic-dashboard/
 ## 👥 Team Members
 
 - Medjahri Mohammed Safouane
-- Aini Ines
+- Aini Ines: pages 3 (**Athlete Performance**) and 4 (**Sports & Events**)
 
-This was a two-person team project. This repository is my copy of it, with additional fixes
-to the Overview and Athlete Performance filters.
+This was a two-person team project. I built pages 3 and 4. This repository is my copy of the
+project, with additional fixes to the Overview and Athlete Performance filters.
 
 ---
 
