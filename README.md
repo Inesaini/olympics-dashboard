@@ -16,6 +16,32 @@ This dashboard transforms raw Olympic data into compelling, interactive narrativ
 
 ---
 
+## ⚙️ How It Works
+
+```mermaid
+flowchart LR
+    A["Kaggle CSV files<br/>data/"] --> B["load_data()<br/>cached with st.cache_data"]
+    B --> C["add_continent_column()<br/>NOC code → continent"]
+    C --> F["Sidebar filters<br/>continent · country · sport<br/>gender · medal type"]
+    F --> P1["Overview"]
+    F --> P2["Global Analysis"]
+    F --> P3["Athlete Performance"]
+    F --> P4["Sports & Events"]
+    P1 & P2 & P3 & P4 --> V["Plotly charts<br/>and tables"]
+```
+
+1. **Load once.** `utils.load_data()` reads every CSV into pandas DataFrames. Streamlit caches
+   the result, so switching pages or changing a filter does not reload the files.
+2. **Add continents.** The dataset only has country (NOC) codes. `add_continent_column()`
+   converts them to continents with `pycountry-convert`, with a manual mapping for Olympic-only
+   codes such as `AIN` (Individual Neutral Athletes) or `EOR` (Refugee Olympic Team).
+3. **Filter.** `create_sidebar_filters()` draws the same sidebar on every page and returns the
+   selected values. Each page applies them to the DataFrames it needs.
+4. **Draw.** Each page builds its own Plotly figures from the filtered data, so every chart
+   updates as soon as a filter changes.
+
+---
+
 ## 🚀 How to Run Locally
 
 ### Prerequisites
@@ -55,6 +81,7 @@ This dashboard transforms raw Olympic data into compelling, interactive narrativ
 - **Country Selection**: Multi-select filter for specific nations
 - **Sport Selection**: Filter by Olympic sports
 - **Medal Type**: Toggle Gold, Silver, and Bronze medals
+- **Gender**: Filter athletes by gender
 - **Continent Filter**: Creative addition for regional analysis
 
 ### Page-Specific Highlights
@@ -146,10 +173,10 @@ olympic-dashboard/
     ├── medals_total.csv
     ├── events.csv
     ├── nocs.csv
-    ├── schedule.csv
+    ├── schedules.csv
     ├── venues.csv
     ├── coaches.csv
-    └── medalists.csv
+    └── medallists.csv
 ```
 
 ---
