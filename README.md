@@ -1,211 +1,86 @@
-# 🏅 Paris 2024 Olympics Dashboard
+# Paris 2024 Olympics Dashboard
 
+**An interactive Streamlit dashboard to explore the Paris 2024 Olympic Games: 11,103 athletes, 206 countries, 1,044 medals and 288 events, across four linked pages with shared filters.**
 
-An interactive, multi-page Streamlit dashboard providing comprehensive analysis of the Paris 2024 Olympic Games dataset.
+![Overview page](screenshots/overview.png)
 
----
+## Highlights
 
-## 📊 Project Overview
+- **Four pages, one set of filters:** continent, country, sport, gender and medal type apply to every chart on every page.
+- **18 interactive Plotly charts:** choropleth world map, sunburst and treemap drill-downs, event Gantt timelines, a venue map, age box plots and head-to-head comparisons.
+- **Data enrichment:** country codes mapped to continents (including Olympic-only teams such as Refugee and Individual Neutral Athletes), and venues geocoded with geopy and cached.
+- **Fast:** every CSV is loaded once and cached, so changing a filter only redraws the charts.
 
-This dashboard transforms raw Olympic data into compelling, interactive narratives across four dedicated analytical perspectives:
+**Stack:** Python · Streamlit · Plotly · pandas · pycountry-convert · geopy
 
-1. **Overview** - Command center with KPIs and global medal standings
-2. **Global Analysis** - Geographical and continental performance insights
-3. **Athlete Performance** - Individual athlete profiles and demographic analysis
-4. **Sports & Events** - Competition schedules, venues, and sport-specific breakdowns
+My part of this two-person team project: the **Athlete Performance** and **Sports & Events** pages, plus later fixes to the Overview and Athlete filters.
 
----
-
-## ⚙️ How It Works
+## How it works
 
 ```mermaid
 flowchart LR
-    A["Kaggle CSV files<br/>data/"] --> B["load_data()<br/>cached with st.cache_data"]
+    A["Kaggle CSVs<br/>athletes, medals, events,<br/>schedules, venues, coaches"] --> B["load_data()<br/>cached with st.cache_data"]
     B --> C["add_continent_column()<br/>NOC code → continent"]
-    C --> F["Sidebar filters<br/>continent · country · sport<br/>gender · medal type"]
-    F --> P1["Overview"]
-    F --> P2["Global Analysis"]
-    F --> P3["Athlete Performance"]
-    F --> P4["Sports & Events"]
-    P1 & P2 & P3 & P4 --> V["Plotly charts<br/>and tables"]
+    C --> F["Shared sidebar filters<br/>continent · country · sport<br/>gender · medal type"]
+    F --> P1["🏠 Overview"]
+    F --> P2["🗺️ Global Analysis"]
+    F --> P3["👤 Athlete Performance"]
+    F --> P4["🏟️ Sports & Events"]
+    G["geopy (Nominatim)<br/>cached venue coordinates"] --> P4
 ```
 
-1. **Load once.** `utils.load_data()` reads every CSV into pandas DataFrames. Streamlit caches
-   the result, so switching pages or changing a filter does not reload the files.
-2. **Add continents.** The dataset only has country (NOC) codes. `add_continent_column()`
-   converts them to continents with `pycountry-convert`, with a manual mapping for Olympic-only
-   codes such as `AIN` (Individual Neutral Athletes) or `EOR` (Refugee Olympic Team).
-3. **Filter.** `create_sidebar_filters()` draws the same sidebar on every page and returns the
-   selected values. Each page applies them to the DataFrames it needs.
-4. **Draw.** Each page builds its own Plotly figures from the filtered data, so every chart
-   updates as soon as a filter changes.
+## The pages
 
----
+### 🏠 Overview
+KPIs (athletes, countries, sports, medals, events), the medal split by type, the top 10 countries and quick insights such as the country with the most golds. *(screenshot above)*
 
-## 🚀 How to Run Locally
+### 🗺️ Global Analysis
+A world map coloured by medal count; a sunburst that drills down from continent to country, sport and medal; medals per continent; the top 20 countries by medal type; and a continent → country → sport treemap.
 
-### Prerequisites
-- Python 3.8 or higher
-- pip package manager
+![Global Analysis page](screenshots/global-analysis.png)
 
-### Installation Steps
+### 👤 Athlete Performance
+- **Athlete profile:** search any athlete to see their country, sports, coach and medals.
+- **Age distribution:** box plots by sport or by gender.
+- **Gender split:** at world, continent or country level.
+- **Top 10 medal winners**, with a detailed medal table.
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Inesaini/olympics-dashboard
-   cd olympics-dashboard
-   ```
+![Athlete Performance page](screenshots/athlete-performance.png)
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 🏟️ Sports & Events
+- **Event schedule:** a Gantt timeline for a chosen sport or venue.
+- **Medals by sport:** treemaps by sport and by medal type, and the top 15 sports.
+- **Venue map** of Paris with a table of venue coordinates.
+- **Country head-to-head:** pick two countries and compare their medals.
+- **Who won the day?:** pick a date to see the medals and events of that day.
 
-3. **Dataset**
-   - The CSV files are already included in the `data/` folder
-   - Source: https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games
+![Sports & Events page](screenshots/sports-and-events.png)
 
-4. **Run the application**
-   ```bash
-   streamlit run 1_🏠_Overview.py
-   ```
+![Venue map](screenshots/venues-map.png)
 
-5. **Access the dashboard**
-   - Open your browser and navigate to `http://localhost:8501`
+Only 11 of the 35 venues are geocoded automatically; the others can be added by hand to `data/venue_coordinates.csv`.
 
----
+## Run it
 
-## 🎯 Key Features
-
-### Global Filters (Available on Every Page)
-- **Country Selection**: Multi-select filter for specific nations
-- **Sport Selection**: Filter by Olympic sports
-- **Medal Type**: Toggle Gold, Silver, and Bronze medals
-- **Gender**: Filter athletes by gender
-- **Continent Filter**: Creative addition for regional analysis
-
-### Page-Specific Highlights
-
-#### 1. Overview Page
-- Real-time KPI metrics (Athletes, Countries, Sports, Medals, Events)
-- Global medal distribution (donut chart)
-- Top 10 countries ranking (horizontal bar chart)
-- Quick insights section
-
-#### 2. Global Analysis Page
-- **World Medal Map**: Interactive choropleth showing medal distribution
-- **Hierarchical Sunburst**: Drill-down from Continent → Country → Sport → Medal
-- **Continental Comparison**: Grouped bar charts by continent
-- **Top 20 Countries**: Detailed medal breakdown
-- **Treemap**: Alternative hierarchical visualization
-
-#### 3. Athlete Performance Page
-- **Searchable Athlete Profiles**: Complete personal information cards with images
-- **Age Distribution**: Box/Violin plots by sport or gender
-- **Gender Analysis**: Drillable from World → Continent → Country levels
-- **Top 10 Medal Winners**: Ranked bar chart with detailed table
-
-#### 4. Sports & Events Page
-- **Event Schedule**: Interactive Gantt chart by sport or venue
-- **Medal Treemap**: Hierarchical sport and medal type visualization
-- **Venue Map**: Scatter mapbox of all Olympic locations in Paris
-- **Sport Statistics**: Comparative analysis dashboards
-- **Detailed Sport Analysis**: Deep dive into individual sports
-
----
-
-## 🎨 Design Choices
-
-### Technical Implementation
-- **Multi-page architecture**: Leverages Streamlit's native page routing
-- **Data caching**: `@st.cache_data` decorator for optimal performance
-- **Continent mapping**: Custom utility using `pycountry` libraries
-- **Consistent filtering**: Centralized filter logic across all pages
-
-### Visualization Strategy
-- **Plotly**: Chosen for interactivity and professional aesthetics
-- **Color coding**: Consistent medal colors (Gold: #FFD700, Silver: #C0C0C0, Bronze: #CD7F32)
-- **Layout optimization**: Strategic use of columns, tabs, and containers
-- **Responsive design**: Mobile-friendly with proper scaling
-
-### User Experience
-- **Progressive disclosure**: Start broad (Overview) → drill deep (specific pages)
-- **Contextual help**: Tooltips and captions throughout
-- **Interactive elements**: Click-to-drill, hover details, dynamic updates
-- **Performance**: Cached data loading, efficient filtering
-
----
-
-## 🌟 Creative Features
-
-### Continent Filter
-Added as a "creative challenge" filter allowing users to analyze performance by geographical regions beyond individual countries.
-
-### Hierarchical Visualizations
-Both Sunburst and Treemap charts provide intuitive drill-down capabilities, revealing insights at multiple levels of granularity.
-
-### Athlete Profile Cards
-Comprehensive athlete search with visual profile cards displaying personal stats, coaches, and medal achievements.
-
-### Multi-level Gender Analysis
-Gender distribution viewable at World, Continental, or Country level for comparative demographic insights.
-
----
-
-## 📦 Project Structure
-
-```
-olympic-dashboard/
-│
-├── 1_🏠_Overview.py                 # Main landing page
-├── pages/
-│   ├── 2_🗺️_Global_Analysis.py      # Geographical analysis
-│   ├── 3_👤_Athlete_Performance.py   # Athlete-focused insights
-│   └── 4_🏟️_Sports_and_Events.py    # Competition details
-│
-├── utils.py                          # Helper functions
-├── requirements.txt                  # Python dependencies
-├── README.md                         # This file
-│
-└── data/                             # CSV files (Kaggle dataset)
-    ├── athletes.csv
-    ├── medals.csv
-    ├── medals_total.csv
-    ├── events.csv
-    ├── nocs.csv
-    ├── schedules.csv
-    ├── venues.csv
-    ├── coaches.csv
-    └── medallists.csv
+```bash
+git clone https://github.com/Inesaini/olympics-dashboard
+cd olympics-dashboard
+pip install -r requirements.txt
+streamlit run 1_🏠_Overview.py      # opens http://localhost:8501
 ```
 
----
+The data is included in `data/`. Source: [Paris 2024 Olympic Summer Games](https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games) on Kaggle.
 
-## 🔗 Links
+## Project structure
 
-- **Original team repository**: https://github.com/S4afou/olympics-dashboard
-- **Kaggle Dataset**: https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games
+| Path | Contents |
+|---|---|
+| `1_🏠_Overview.py` | Landing page |
+| `pages/` | Global Analysis, Athlete Performance, Sports & Events |
+| `utils.py` | Data loading and caching, continent mapping, shared sidebar filters |
+| `data/` | Kaggle CSVs and cached venue coordinates |
+| `screenshots/` | Images used in this README |
 
----
+## About
 
-## 👥 Team Members
-
-- Medjahri Mohammed Safouane
-- Aini Ines: pages 3 (**Athlete Performance**) and 4 (**Sports & Events**)
-
-This was a two-person team project. I built pages 3 and 4. This repository is my copy of the
-project, with additional fixes to the Overview and Athlete Performance filters.
-
----
-
-## 📝 License
-
-This project is created for educational purposes as part of the Software Engineering for Data Science course at ESI-SBA.
-
----
-
-## 🙏 Acknowledgments
-
-- Dr. Belkacem KHALDI for project guidance
-- Paris 2024 Olympic Games dataset by piterfm on Kaggle
-- Streamlit community for excellent documentation
+Team project for the **Software Engineering for Data Science** course at ESI-SBA, supervised by Dr. Belkacem Khaldi. Team: Medjahri Mohammed Safouane and Aini Ines. Original team repository: [S4afou/olympics-dashboard](https://github.com/S4afou/olympics-dashboard).
