@@ -63,9 +63,9 @@ Medals per continent, the top 20 countries by medal type, and a continent → co
 
 ![Medal treemaps and top 15 sports](screenshots/sports-medals.png)
 
-- **Venue map** of Paris, with a table of venue coordinates. Only 11 of the 35 venues are geocoded automatically; the others can be added by hand to `data/venue_coordinates.csv`.
+- **Venue maps:** an interactive Plotly map of the Paris region and a zoomed Streamlit map of central Paris, with a table of venue coordinates. Only 11 of the 35 venues are geocoded automatically; the others can be added by hand to `data/venue_coordinates.csv`.
 
-![Olympic venues map](screenshots/venues-map.png)
+![Olympic venue maps](screenshots/venues-map.png)
 
 - **Country head-to-head:** pick two countries and compare their medals.
 - **Who won the day?:** pick a date to see that day's medals and events.
