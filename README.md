@@ -35,30 +35,42 @@ flowchart LR
 KPIs (athletes, countries, sports, medals, events), the medal split by type, the top 10 countries and quick insights such as the country with the most golds. *(screenshot above)*
 
 ### 🗺️ Global Analysis
-A world map coloured by medal count; a sunburst that drills down from continent to country, sport and medal; medals per continent; the top 20 countries by medal type; and a continent → country → sport treemap.
+A world map coloured by medal count, and a sunburst that drills down from continent to country, sport and medal.
 
-![Global Analysis page](screenshots/global-analysis.png)
+![World medal map and continent sunburst](screenshots/global-analysis.png)
+
+Medals per continent, the top 20 countries by medal type, and a continent → country → sport treemap.
+
+![Top 20 countries and continent treemap](screenshots/global-top20-treemap.png)
 
 ### 👤 Athlete Performance
 - **Athlete profile:** search any athlete to see their country, sports, coach and medals.
 - **Age distribution:** box plots by sport or by gender.
 - **Gender split:** at world, continent or country level.
+
+![Age distribution and gender split](screenshots/athlete-performance.png)
+
 - **Top 10 medal winners**, with a detailed medal table.
 
-![Athlete Performance page](screenshots/athlete-performance.png)
+![Top 10 athletes and medal breakdown](screenshots/athlete-top10.png)
 
 ### 🏟️ Sports & Events
 - **Event schedule:** a Gantt timeline for a chosen sport or venue.
+
+![Event schedule timeline](screenshots/sports-schedule.png)
+
 - **Medals by sport:** treemaps by sport and by medal type, and the top 15 sports.
-- **Venue map** of Paris with a table of venue coordinates.
+
+![Medal treemaps and top 15 sports](screenshots/sports-medals.png)
+
+- **Venue map** of Paris, with a table of venue coordinates. Only 11 of the 35 venues are geocoded automatically; the others can be added by hand to `data/venue_coordinates.csv`.
+
+![Olympic venues map](screenshots/venues-map.png)
+
 - **Country head-to-head:** pick two countries and compare their medals.
-- **Who won the day?:** pick a date to see the medals and events of that day.
+- **Who won the day?:** pick a date to see that day's medals and events.
 
-![Sports & Events page](screenshots/sports-and-events.png)
-
-![Venue map](screenshots/venues-map.png)
-
-Only 11 of the 35 venues are geocoded automatically; the others can be added by hand to `data/venue_coordinates.csv`.
+![Country head-to-head and daily timeline](screenshots/head-to-head.png)
 
 ## Run it
 
